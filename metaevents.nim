@@ -33,7 +33,6 @@ macro declareEventPipe*(name: untyped,
   ## The other types of events including user suplied can
   ## also be passed to this macro.
   ##
-  let name_string = name.repr
   var field_list = newNimNode(nnkRecList)
   for event in events:
     let event_name = event.repr
