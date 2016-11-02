@@ -40,6 +40,11 @@ suite "Pipe tests":
     thePipe.emit(5)
     check(testint == 10)
 
+  test "Empty chain":
+    var thePipe: testPipe
+    thePipe.emit("hello")
+    thePipe.emit(10)
+
   test "Chain break":
     var thePipe: testPipe
     var testint = 0
