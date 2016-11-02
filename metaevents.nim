@@ -35,7 +35,6 @@ macro declareEventPipe*(name: untyped,
   ##
   let name_string = name.repr
   var field_list = newNimNode(nnkRecList)
-  var init_sequence = newNimNode(nnkStmtList)
   for event in events:
     let event_name = event.repr
     let proc_decl = "proc(e: $1): bool" % event_name
@@ -47,8 +46,6 @@ macro declareEventPipe*(name: untyped,
         newEmptyNode()
       )
     )
-    init_sequence.add(parseExpr("result.$1 = newSeq[$2]()\n" %
-      [event_pipe_name, proc_decl]))
   let obj = newTree(nnkObjectTy,
     newEmptyNode(),
     newEmptyNode(),
@@ -60,18 +57,10 @@ macro declareEventPipe*(name: untyped,
     obj
   )
   let typeDecl = newTree(nnkTypeSection, typeDef)
-  let initArg = newTree(nnkIdentDefs, newIdentNode("pipe"),
-    parseExpr("typedesc[$1]" % name_string),
-    newEmptyNode())
-  let initDecl = newProc(newIdentNode("initPipe").postfix("*"),
-    [name, initArg],
-    init_sequence)
     
-  result = newTree(nnkStmtList, typeDecl, initDecl)
-  hint(result.repr)
-
-#macro concat(name: string, postfix: string): untyped =
-#  newIdentNode(name & postfix)
+  result = newTree(nnkStmtList, typeDecl)
+  when defined(debug):
+    hint(result.repr)
 
 macro pipeEntry(pipe: any, postfix: string): untyped =
   ## Constructs expression to access pipe field for given type
@@ -92,7 +81,10 @@ proc on_event*[P, E](pipe: var P, handler: proc(e: E): bool) =
   ## to next handlers in chain.
   assert(pipeEntry(pipe, name(E)) is seq[type(handler)],
     "No subpipe for event $1." % name(E))
-  pipeEntry(pipe, name(E) & "_pipe").add(handler)
+  if isNil(pipeEntry(pipe, name(E))):
+    pipeEntry(pipe, name(E)) = newSeq[type(handler)]()
+  pipeEntry(pipe, name(E)).add(handler)
+
 
 proc emit*[P, E](pipe: var P, event: E) =
   ## Emits an ``event`` to the event ``pipe``.
