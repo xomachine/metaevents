@@ -67,6 +67,17 @@ suite "Pipe tests":
     thePipe.emit(6)
     check(teststring == "6")
 
+  test "Add handler while handling":
+    var thePipe: testPipe
+    var testint = 0
+    let testhandler = proc(e:int):bool = testint += e
+    let adder = proc (e:int):bool = thePipe.on_event(testhandler)
+    thePipe.on_event(adder)
+    thePipe.emit(5)
+    check(testint == 0)
+    thePipe.emit(6)
+    check(testint == 6)
+
   test "Remove handler":
     var thePipe: testPipe
     var testint = 0
