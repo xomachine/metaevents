@@ -66,3 +66,26 @@ suite "Pipe tests":
     thePipe.on_event(inthandler)
     thePipe.emit(6)
     check(teststring == "6")
+
+  test "Remove handler":
+    var thePipe: testPipe
+    var testint = 0
+    let testhandler = proc (e:int):bool = testint += e
+    thePipe.on_event(testhandler)
+    thePipe.emit(2)
+    check(testint == 2)
+    thePipe.detach(testhandler)
+    thePipe.emit(3)
+    check(testint == 2)
+
+  test "Remove handler while handling":
+    var thePipe: testPipe
+    var testint = 0
+    let testhandler = proc(e:int):bool = testint += e
+    let remover = proc (e:int):bool = thePipe.detach(testhandler)
+    thePipe.on_event(remover)
+    thePipe.on_event(testhandler)
+    thePipe.emit(5)
+    check(testint == 5)
+    thePipe.emit(6)
+    check(testint == 5)
