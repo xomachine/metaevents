@@ -100,6 +100,11 @@ proc emit*[P, E](pipe: var P, event: E) =
       break
 
 proc detach*[P, E](pipe: var P, handler: proc(e: E): bool) =
+  ## Detaches the ``handler`` from the event ``pipe``.
+  ##
+  ## If the ``handler`` is detached while handling
+  ## event, changes will take effect only when next event
+  ## will be emitted.
   let subpipe = pipeEntry(pipe, name(E))
   assert(subpipe is seq[proc(e:E):bool],
     "No subpipe for event $1." % name(E))
