@@ -84,7 +84,6 @@ proc on_event*[P, E](pipe: var P, handler: proc(e: E): bool) =
     pipeEntry(pipe, name(E)) = newSeq[type(handler)]()
   pipeEntry(pipe, name(E)).add(handler)
 
-
 proc emit*[P, E](pipe: var P, event: E) =
   ## Emits an ``event`` to the event ``pipe``.
   ## The event will be passed to
@@ -93,7 +92,17 @@ proc emit*[P, E](pipe: var P, event: E) =
   let subpipe = pipeEntry(pipe, name(E))
   assert(subpipe is seq[proc(e:E):bool],
     "No subpipe for event $1." % name(E))
-  for handler in subpipe:
+  # Expression & @[] required to make a copy of subpipe
+  # that is necessary for passing tests related to removing
+  # or adding handler while handling
+  for handler in subpipe & @[]:
     if handler(event):
       break
-  
+
+proc detach*[P, E](pipe: var P, handler: proc(e: E): bool) =
+  let subpipe = pipeEntry(pipe, name(E))
+  assert(subpipe is seq[proc(e:E):bool],
+    "No subpipe for event $1." % name(E))
+  let index = subpipe.find(handler)
+  if index >= 0:
+    pipeEntry(pipe, name(E)).del(index)
