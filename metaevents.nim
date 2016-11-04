@@ -1,3 +1,88 @@
+## ==========
+## Metaevents
+## ==========
+##
+## This library is designed as an alternative to the events_
+## library with strong event type checking at compile time.
+##
+## .. _events: http://nim-lang.org/docs/events.html
+## Event pipes
+## -----------
+##
+## The main concept of this library is using an event pipe
+## to communicate between event emmiters and event handlers.
+## Due to compile-time nature each event pipe can support
+## only specified set of events which should be declared
+## by special macro at top level of the source code file.
+##
+## The event pipe is a type which constructed from
+## event chains - sequencies of event handlers.
+## Dispatching events between the chains is performed
+## at compile time while the iterating through handlers
+## in chain is a runtime operation.
+##
+## There is no special type for the event pipe in this library,
+## so user has to declare his own event pipe (or event pipes)
+## for set of events used in the code. Declaration of the
+## event pipe can be performed via ``declareEventPipe`` macro.
+## For example, there are two kind of events used in application:
+##
+## .. code-block:: Nim
+##   type
+##     ButtonPressed = object
+##       button_id: int
+##   
+##     MouseMoved = object
+##       shift_x: int
+##       shift_y: int
+##
+## To construct the event pipe with name "TheEventPipe"
+## for those events the following
+## declaration should be placed at the top level of the file:
+##
+## .. code-block:: Nim
+##   declareEventPipe(TheEventPipe,
+##                    ButtonPressed,
+##                    MouseMoved)
+##
+## This statement will just create the event pipe type declaration
+## in the following way:
+##
+## .. code-block:: Nim
+##   type
+##     TheEventPipe* = object
+##       ButtonPressed_pipe: seq[proc (e: ButtonPressed): bool]
+##       MouseMoved_pipe: seq[proc (e: MouseMoved): bool]
+##
+## After declaring of the event pipe it can be used in code. First,
+## the event pipe object instance should be created.
+##
+## .. code-block:: Nim
+##   var MyEventPipe: TheEventPipe
+##
+## There are no special initiation required, just declare the
+## instance of the event pipe type and use it. Detailed
+## description of procedures used can be found below.
+##
+## .. code-block:: Nim
+##   let mousehandler = proc (e: MouseMoved): bool =
+##     discard # There are could be some handling stuff
+##   MyEventPipe.on_event(mousehandler)
+##   # ... a long listing ago
+##   var moving: MouseMoved
+##   MyEventPipe.emit(moving) # There goes call of the 'mousehandler'
+##
+## Multithreading
+## --------------
+##
+## The metaevents library is not developed for multithreaded
+## applications. All event handlers will be called by the
+## control flow of the event emmiter without any syncronization
+## or data transfer to another thread. But the handler
+## might be written in the way that allows this library to be used
+## in multithreaded application. In this case all work related
+## to interthread communications is assigned to the user.
+##
 
 from strutils import `%`
 import macros
@@ -88,7 +173,9 @@ proc emit*[P, E](pipe: var P, event: E) =
   ## Emits an ``event`` to the event ``pipe``.
   ## The event will be passed to
   ## the all handlers related to such type of event until one of
-  ## them won't return ``true``.
+  ## them won't return ``true``. The order of the handlers call
+  ## is not guaranteed but might be preserved in case if no
+  ## hadlers were detached.
   let subpipe = pipeEntry(pipe, name(E))
   assert(subpipe is seq[proc(e:E):bool],
     "No subpipe for event $1." % name(E))
