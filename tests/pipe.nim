@@ -100,3 +100,39 @@ suite "Pipe tests":
     check(testint == 5)
     thePipe.emit(6)
     check(testint == 5)
+
+  test "Remove all handlers for event":
+    var thePipe: testPipe
+    var testint = 0
+    var teststring = ""
+    let testhandler = proc(e:int):bool = testint += e
+    let stringhandler = proc(e:string):bool = teststring &= e
+    let secondhandler = proc (e:int):bool = testint += e*2
+    thePipe.on_event(testhandler)
+    thePipe.on_event(secondhandler)
+    thePipe.on_event(stringhandler)
+    thePipe.emit(2)
+    check(testint == 6)
+    thePipe.emit("hell")
+    check(teststring == "hell")
+    thePipe.detach_all(int)
+    thePipe.emit(4)
+    thePipe.emit("o")
+    check(testint == 6)
+    check(teststring == "hello")
+
+  test "Clear all handlers":
+    var thePipe: testPipe
+    var testint = 0
+    var teststring = ""
+    let testhandler = proc(e:int):bool = testint += e
+    let stringhandler = proc(e:string):bool = teststring &= e
+    let secondhandler = proc (e:int):bool = testint += e*2
+    thePipe.on_event(testhandler)
+    thePipe.on_event(secondhandler)
+    thePipe.on_event(stringhandler)
+    thePipe.detach_all()
+    thePipe.emit(6)
+    thePipe.emit("nope")
+    check(teststring == "")
+    check(testint == 0)
