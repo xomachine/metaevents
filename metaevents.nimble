@@ -11,3 +11,7 @@ task tests, "Run tests":
   let test_files = listFiles("tests")
   for file in test_files:
     exec("nim c --run -p:" & thisDir() & " " & file)
+
+task docs, "Build documentation":
+  exec("nim doc2 --docSeeSrcUrl:https://github.com/xomachine/" &
+    "metaevents/ -p:" & thisDir() & " metaevents.nim")
