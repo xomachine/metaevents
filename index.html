@@ -1286,18 +1286,18 @@ function main() {
 <dd>
 Attaches handler for event <tt class="docutils literal"><span class="pre">E</span></tt> to the <tt class="docutils literal"><span class="pre">pipe</span></tt>. The event type will be inferenced from the handler type. When the handler returns <tt class="docutils literal"><span class="pre">true</span></tt>, the event won't be passed to next handlers in chain.
 &nbsp;&nbsp;<a
-href="/tree/master/metaevents.nim#L161"
+href="https://github.com/xomachine/metaevents/tree/master/metaevents.nim#L161"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/metaevents.nim#L161" class="link-seesrc" target="_blank" >Edit</a>
+<a href="https://github.com/xomachine/metaevents/edit/devel/metaevents.nim#L161" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="emit"><a name="emit,P,E"></a><pre><span class="Keyword">proc</span> <span class="Identifier">emit</span><span class="Other">[</span><span class="Identifier">P</span><span class="Other">,</span> <span class="Identifier">E</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">pipe</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">P</span><span class="Other">;</span> <span class="Identifier">event</span><span class="Other">:</span> <span class="Identifier">E</span><span class="Other">)</span></pre></dt>
 <dd>
 Emits an <tt class="docutils literal"><span class="pre">event</span></tt> to the event <tt class="docutils literal"><span class="pre">pipe</span></tt>. The event will be passed to the all handlers related to such type of event until one of them won't return <tt class="docutils literal"><span class="pre">true</span></tt>. The order of the handlers call is not guaranteed but might be preserved in case if no hadlers were detached.
 &nbsp;&nbsp;<a
-href="/tree/master/metaevents.nim#L172"
+href="https://github.com/xomachine/metaevents/tree/master/metaevents.nim#L172"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/metaevents.nim#L172" class="link-seesrc" target="_blank" >Edit</a>
+<a href="https://github.com/xomachine/metaevents/edit/devel/metaevents.nim#L172" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="detach"><a name="detach,P,proc(E)"></a><pre><span class="Keyword">proc</span> <span class="Identifier">detach</span><span class="Other">[</span><span class="Identifier">P</span><span class="Other">,</span> <span class="Identifier">E</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">pipe</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">P</span><span class="Other">;</span> <span class="Identifier">handler</span><span class="Other">:</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">e</span><span class="Other">:</span> <span class="Identifier">E</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span><span class="Other">)</span></pre></dt>
@@ -1306,27 +1306,27 @@ class="link-seesrc" target="_blank">Source</a>
 <p>If the <tt class="docutils literal"><span class="pre">handler</span></tt> is detached while handling event, changes will take effect only when next event will be emitted.</p>
 
 &nbsp;&nbsp;<a
-href="/tree/master/metaevents.nim#L189"
+href="https://github.com/xomachine/metaevents/tree/master/metaevents.nim#L189"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/metaevents.nim#L189" class="link-seesrc" target="_blank" >Edit</a>
+<a href="https://github.com/xomachine/metaevents/edit/devel/metaevents.nim#L189" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="detach_all"><a name="detach_all,P,typedesc[E]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">detach_all</span><span class="Other">[</span><span class="Identifier">P</span><span class="Other">,</span> <span class="Identifier">E</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">pipe</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">P</span><span class="Other">;</span> <span class="Identifier">event</span><span class="Other">:</span> <span class="Identifier">typedesc</span><span class="Other">[</span><span class="Identifier">E</span><span class="Other">]</span><span class="Other">)</span></pre></dt>
 <dd>
 Detaches all event handlers for given <tt class="docutils literal"><span class="pre">event</span></tt>
 &nbsp;&nbsp;<a
-href="/tree/master/metaevents.nim#L202"
+href="https://github.com/xomachine/metaevents/tree/master/metaevents.nim#L202"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/metaevents.nim#L202" class="link-seesrc" target="_blank" >Edit</a>
+<a href="https://github.com/xomachine/metaevents/edit/devel/metaevents.nim#L202" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="detach_all"><a name="detach_all,P"></a><pre><span class="Keyword">proc</span> <span class="Identifier">detach_all</span><span class="Other">[</span><span class="Identifier">P</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">pipe</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">P</span><span class="Other">)</span></pre></dt>
 <dd>
 Detaches all event handlers for all events.
 &nbsp;&nbsp;<a
-href="/tree/master/metaevents.nim#L209"
+href="https://github.com/xomachine/metaevents/tree/master/metaevents.nim#L209"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/metaevents.nim#L209" class="link-seesrc" target="_blank" >Edit</a>
+<a href="https://github.com/xomachine/metaevents/edit/devel/metaevents.nim#L209" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 
@@ -1345,9 +1345,9 @@ class="link-seesrc" target="_blank">Source</a>
     <span class="Identifier">string_pipe</span><span class="Punctuation">:</span> <span class="Identifier">seq</span><span class="Punctuation">[</span><span class="Keyword">proc</span><span class="Punctuation">(</span><span class="Identifier">e</span><span class="Punctuation">:</span> <span class="Identifier">string</span><span class="Punctuation">)</span><span class="Punctuation">:</span> <span class="Identifier">bool</span><span class="Punctuation">]</span></pre><p>So, the instance of the <tt class="docutils literal"><span class="pre">stringPipe</span></tt> type now can be used to subscribe on or emit events with type <tt class="docutils literal"><span class="pre">string</span></tt> The other types of events including user suplied can also be passed to this macro. </p>
 
 &nbsp;&nbsp;<a
-href="/tree/master/metaevents.nim#L95"
+href="https://github.com/xomachine/metaevents/tree/master/metaevents.nim#L95"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/metaevents.nim#L95" class="link-seesrc" target="_blank" >Edit</a>
+<a href="https://github.com/xomachine/metaevents/edit/devel/metaevents.nim#L95" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 
@@ -1360,7 +1360,7 @@ class="link-seesrc" target="_blank">Source</a>
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small>Made with Nim. Generated: 2016-11-04 21:22:40 UTC</small>
+        <small>Made with Nim. Generated: 2016-11-04 22:47:15 UTC</small>
       </div>
     </div>
   </div>
