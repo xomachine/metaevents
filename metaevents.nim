@@ -92,10 +92,10 @@ proc emit*[P, E](pipe: var P, event: E) =
   let subpipe = pipeEntry(pipe, name(E))
   assert(subpipe is seq[proc(e:E):bool],
     "No subpipe for event $1." % name(E))
-  # Expression & @[] required to make a copy of subpipe
-  # that is necessary for passing tests related to removing
+  # The copying is necessary for passing tests related to removing
   # or adding handler while handling
-  for handler in subpipe & @[]:
+  var subpipe_copy = subpipe
+  for handler in subpipe_copy:
     if handler(event):
       break
 
