@@ -1,2 +1,7 @@
-# metaevents
-Metaevents is a factory for your own event libraries written in the Nim language.
+# Metaevents
+
+
+This library is designed as an alternative to the [events](http://nim-lang.org/docs/events.html) library with strong event type checking at compile time.
+
+The documentation can be found [here](https://xomachine.github.io/metaevents/).
+
