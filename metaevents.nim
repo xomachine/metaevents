@@ -111,3 +111,15 @@ proc detach*[P, E](pipe: var P, handler: proc(e: E): bool) =
   let index = subpipe.find(handler)
   if index >= 0:
     pipeEntry(pipe, name(E)).del(index)
+
+proc detach_all*[P, E](pipe: var P, event: typedesc[E]) =
+  ## Detaches all event handlers for given ``event``
+  let subpipe = pipeEntry(pipe, name(E))
+  assert(subpipe is seq[proc(e:E):bool],
+    "No subpipe for event $1." % name(E))
+  pipeEntry(pipe, name(E)).setLen(0)
+
+proc detach_all*[P](pipe: var P) =
+  ## Detaches all event handlers for all events.
+  for field_val in fields(pipe):
+    field_val.setLen(0)
