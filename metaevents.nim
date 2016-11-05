@@ -125,7 +125,7 @@ macro declareEventPipe*(name: untyped,
     let event_pipe_name = event2field(event_name)
     field_list.add(
       newTree(nnkIdentDefs,
-        newIdentNode(event_pipe_name),
+        newIdentNode(event_pipe_name).postfix("*"),
         parseExpr("seq[$1]" % (proc_decl)),
         newEmptyNode()
       )
