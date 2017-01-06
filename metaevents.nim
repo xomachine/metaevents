@@ -181,7 +181,9 @@ proc emit*[P, E](pipe: var P, event: E) =
     "No subpipe for event $1." % name(E))
   # The copying is necessary for passing tests related to removing
   # or adding handler while handling
-  var subpipe_copy = subpipe
+  var subpipe_copy = newSeq[proc(e:E):bool](subpipe.len)
+  for i in 0..<subpipe.len:
+    subpipe_copy[i] = subpipe[i]
   for handler in subpipe_copy:
     if handler(event):
       break
