@@ -14,5 +14,5 @@ task tests, "Run tests":
     rmFile "tmpfile"
 
 task docs, "Build documentation":
-  exec("nim doc2 --docSeeSrcUrl:https://github.com/xomachine/" &
+  exec("nim doc --docSeeSrcUrl:https://gitlab.com/xomachine/" &
     "metaevents/ -p:" & thisDir() & " metaevents.nim")
