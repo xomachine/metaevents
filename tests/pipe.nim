@@ -12,6 +12,15 @@ suite "Pipe tests":
     thePipe.emit(5.int)
     check(testvar == 5)
 
+  test "Simple ref event":
+    var thePipe: ref testPipe
+    new(thePipe)
+    var testvar = 0
+    let testproc = proc(e: int): bool = testvar = e
+    thePipe[].on_event(testproc)
+    thePipe[].emit(5.int)
+    check(testvar == 5)
+
   test "Mixed events":
     var thePipe: testPipe
     var testint = 0
