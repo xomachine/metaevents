@@ -7,12 +7,12 @@ before_script:
 pages:
   stage: deploy
   script:
-  - mkdir docs
+  - mkdir -p public
   - nimble docs
-  - cp metaevents.html docs/index.html
+  - cp metaevents.html public/index.html
   artifacts:
     paths:
-    - docs
+    - public
   only:
   - master
 
