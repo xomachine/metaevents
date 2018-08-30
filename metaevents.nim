@@ -88,6 +88,12 @@ from strutils import `%`
 import macros
 from typetraits import name
 
+const NimCummulativeVersion = NimMajor * 10000 + NimMinor * 100 + NimPatch
+when NimCummulativeVersion >= 1801:
+  proc isNil[T](a: seq[T]): bool = false
+else:
+  proc isNil[T](a: seq[T]): bool = system.isNil(a)
+
 proc event2field(event: string): string =
   ## Makes field name for event pipe object from event type
   event & "_pipe"
@@ -165,7 +171,7 @@ proc on_event*[P, E](pipe: var P, handler: proc(e: E): bool) =
   ## to next handlers in chain.
   assert(pipeEntry(pipe, name(E)) is seq[type(handler)],
     "No subpipe for event $1." % name(E))
-  if isNil(pipeEntry(pipe, name(E))):
+  if metaevents.isNil(pipeEntry(pipe, name(E))):
     pipeEntry(pipe, name(E)) = newSeq[type(handler)]()
   pipeEntry(pipe, name(E)).add(handler)
 
