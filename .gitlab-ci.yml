@@ -1,4 +1,4 @@
-image: gcc
+image: nimlang/nim:latest
 
 .build:compiler: &nimbuild
   cache:
@@ -47,16 +47,10 @@ test:devel:
   <<: *testscript
 
 test:master:
-  variables:
-    NIMBRANCH: master
-  <<: *nimbuild
   <<: *testscript
 
 pages:
   stage: deploy
-  variables:
-    NIMBRANCH: master
-  <<: *nimbuild
   script:
   - mkdir -p public
   - nimble docs
