@@ -54,7 +54,7 @@ pages:
   script:
   - mkdir -p public
   - nimble docs
-  - cp metaevents.html public/index.html
+  - cp htmldocs/metaevents.html public/index.html
   artifacts:
     paths:
     - public
